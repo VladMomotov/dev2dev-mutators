@@ -94,18 +94,18 @@
 					<section>
 						<pre><code class="js" data-trim>
 							const isEverythingOk = (ok) => {
-								if (ok) {
-									return true;
-								} else {
-									throw "I CAN'T HANDLE IT"
-								}
+							  if (ok) {
+							    return true;
+							  } else {
+							    throw "I CAN'T HANDLE IT"
+							  }
 							}
 							
-							test('isEverythingOk', () => {
-								expect(isEverythingOk(true)).toBeTruthy();
-								expect(() => { isEverythingOk(false) }).toThrowError("I CAN'T HANDLE IT")
-							})
-						</code></pre>
+						  test('isEverythingOk', () => {
+							  expect(isEverythingOk(true)).toBeTruthy();
+							  expect(() => { isEverythingOk(false) }).toThrowError("I CAN'T HANDLE IT")
+						  })
+							</code></pre>
 					</section>
 				</section>
 				<section>
@@ -119,17 +119,17 @@
 					<section>
 						<pre><code class="js" data-trim data-line-numbers>
 							export const isDangerous = (temp) => {
-								if (temp < 10_000) {
-									return temp > 1000;
-								} else {
-									throw "TOO HOT!"
-								}
+							  if (temp < 10_000) {
+							    return temp > 1000;
+							  } else {
+							    throw "TOO HOT!"
+							  }
 							}
 						</code></pre>
 						<pre><code class="js" data-trim>
 							test('isDangerous', () => {
-								expect(isDangerous(1000)).toBeFalsy();
-								expect(isDangerous(2000)).toBeTruthy();
+						    expect(isDangerous(1000)).toBeFalsy();
+						    expect(isDangerous(2000)).toBeTruthy();
 							})
 						</code></pre>
 						<pre><code class="bash" data-trim data-noescape>				
@@ -143,7 +143,25 @@
 					</section>
 				</section>
 				<section>
-					Мутационное тестирование
+					<section>
+						Мутационное тестирование
+					</section>
+					<section>
+						<p>Мутационное тестирование не тестирует ваш код.</p>
+						<p>Оно помогает найти код непокрытый тестами.</p>
+					</section>
+					<section>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-5">
+									<img src="lib/img/ast_1.png" style="background-color: transparent; box-shadow: none;"/>
+								</div>
+								<div class="offset-md-2 col-md-5 fragment">
+									<img src="lib/img/ast_2.png" style="background-color: transparent; box-shadow: none;"/>
+								</div>
+							</div>
+						</div>	
+					</section>
 				</section>
 				<section>
 					<div class="container-fluid">
@@ -255,10 +273,6 @@ module.exports = {
 				<section>
 					Мутант считается выжившим, если все тесты прошли успешно.<br />
 					Наша задача - писать такие тесты, чтобы мутанты не выживали.
-				</section>
-				<section>
-					Мутационное тестирование не тестирует ваш код.
-					Оно помогает найти код непокрытый тестами.
 				</section>
 				<!-- <section>
 					про AST дерево что-нибудь впихнуть
