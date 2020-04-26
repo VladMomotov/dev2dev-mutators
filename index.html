@@ -9,9 +9,13 @@
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="lib/css/custom.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/monokai.css">
+		<link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap" rel="stylesheet">
+		<script src="https://kit.fontawesome.com/51b9f78b9d.js" crossorigin="anonymous"></script>
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -24,9 +28,242 @@
 	</head>
 	<body>
 		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+			<div class="slides yanone-kaffeesatz">
+				<section>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4">
+								<img src="lib/img/me.png" style="background: transparent;"/>
+							</div>
+							<div class="offset-md-2 col-md-4 about-me">
+								<div>
+									<h3 style="margin-bottom: 40px;">Влад Момотов</h3>
+									<p>Ruby, JS Developer</p>
+									<p class="font-size-30"><i class="fab fa-slack"></i> vladislav.momatau</p>
+									<p class="font-size-30"><i class="fab fa-skype"></i> live:vlad.momotov</p>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section class="opening">Мутационное тестирование</section>
+				<section>Зачемы мы пишем тесты?</section>
+				<section>
+					<section>
+						Что гарантируют тесты? И гарантируют ли они хоть что-нибудь?
+					  Давайте выясним!
+					</section>
+					<section>
+						<pre><code class="js" data-trim>
+							test('wow such a test', () => {
+							  expect(true).toBeTruthy();
+							})
+						</code></pre>
+					</section>
+					<section>
+						<pre><code class="js" data-trim>
+							test('wow such a test', () => {
+							  const mockService = jest.fn((a, b) => a + b)
+							  
+							  expect(mockService(2, 2)).toEqual(4)
+							})
+						</code></pre>
+					</section>
+					<section>
+						<pre><code class="js" data-trim>
+							const isEverythingOk = (ok) => {
+							  if (ok) {
+							    return true;
+							  } else {
+							    throw "I CAN'T HANDLE IT"
+							  }
+							}
+							  
+							test('isEverythingOk', () => {
+							  expect(isEverythingOk(true)).toBeTruthy();
+							})
+						</code></pre>
+					</section>
+					<section>
+						<pre><code class="js" data-trim>
+							const isEverythingOk = (ok) => {
+								if (ok) {
+									return true;
+								} else {
+									throw "I CAN'T HANDLE IT"
+								}
+							}
+							
+							test('isEverythingOk', () => {
+								expect(isEverythingOk(true)).toBeTruthy();
+								expect(() => { isEverythingOk(false) }).toThrowError("I CAN'T HANDLE IT")
+							})
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<div>Make Unit Tests Reliable again</div>
+					<img src="lib/img/make tests great.png" height="600px"/>
+				</section>
+				<section>
+					<section>
+						Test Coverage
+					</section>
+					<section>
+						<pre><code class="js" data-trim data-line-numbers>
+							export const isDangerous = (temp) => {
+								if (temp < 10_000) {
+									return temp > 1000;
+								} else {
+									throw "TOO HOT!"
+								}
+							}
+						</code></pre>
+						<pre><code class="js" data-trim>
+							test('isDangerous', () => {
+								expect(isDangerous(1000)).toBeFalsy();
+								expect(isDangerous(2000)).toBeTruthy();
+							})
+						</code></pre>
+						<pre><code class="bash" data-trim data-noescape>				
+							-------------------------|----------|----------|----------|----------|-------------------|
+							File                     |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+							-------------------------|----------|----------|----------|----------|-------------------|
+							All files                |       75 |       50 |      <span style="color: green;">100</span> |       75 |                   |
+							 nuclearReactorCooler.js |       75 |       50 |      <span style="color: green;">100</span> |       75 |                 <span style="color: red;">5</span> |
+							-------------------------|----------|----------|----------|----------|-------------------|
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					Мутационное тестирование
+				</section>
+				<section>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-6">
+								<a href="https://stryker-mutator.io/">
+									https://stryker-mutator.io/
+								</a><br/>
+								<pre>npm install -g stryker-cli<br/>stryker init<br/>stryker run</pre>
+							</div>
+							<div class="col-md-6">
+								<img src="lib/img/strykerman.png" />
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4">
+								<img src="lib/img/project-overview.png" />
+							</div>
+							<div class="col-md-8">
+								<img 
+									src="lib/img/is-dangerous.png" 
+									style="position: relative; top: 150px; float: left"
+								/>
+								<img 
+									src="lib/img/is-dangerous-test.png" 
+									style="position: relative; top: 150px; float: left"
+								/>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					первый запуск...
+				</section>
+				<section>
+					<img src="lib/img/first-run.png" />
+				</section>
+				<section>
+					<pre>
+						<code class="js" data-line-numbers="5">//stryker.conf.js
+module.exports = {
+	comment:
+		"This config was generated using a preset. Please see the handbook for more information: https://github.com/stryker-mutator/stryker-handbook/blob/master/stryker/guides/react.md#react",
+	mutate: ["src/services/**/*.js?(x)", "!src/**/*@(.test|.spec|Spec).js?(x)"],
+	mutator: "javascript",
+	testRunner: "jest",
+	reporters: ["progress", "clear-text", "html"],
+	coverageAnalysis: "off",
+	jest: {
+		projectType: "create-react-app",
+	},
+};
+						</code>
+					</pre>
+				</section>
+				<section>
+					<img src="lib/img/second-run.png" />
+				</section>
+				<section>
+					<section>
+						Исходный код
+						<pre>
+							<code class="js">export const isDangerous = (temp) => {
+  return temp > 1000;
+}
+							</code>
+						</pre>
+					</section>
+					<section>
+						Мутант
+						<pre>
+							<code class="js">export const isDangerous = (temp) => {
+  return temp >= 1000;
+}
+							</code>
+						</pre>
+					</section>
+					<section>
+						Мутант
+						<pre>
+							<code class="js">export const isDangerous = (temp) => {
+  return false;
+}
+							</code>
+						</pre>
+					</section>
+					<section>
+						Мутант
+						<pre>
+							<code class="js">export const isDangerous = (temp) => {
+  return ""
+}
+							</code>
+						</pre>
+					</section>
+					<section>
+						<a 
+							href="https://github.com/stryker-mutator/stryker-handbook/blob/master/mutator-types.md#supported-mutators"
+							target="_blank"
+						>
+							Виды мутаторов
+						</a>
+					</section>
+				</section>
+				<section>
+					Мутант считается выжившим, если все тесты прошли успешно.<br />
+					Наша задача - писать такие тесты, чтобы мутанты не выживали.
+				</section>
+				<section>
+					Мутационное тестирование не тестирует ваш код.
+					Оно помогает найти код непокрытый тестами.
+				</section>
+				<!-- <section>
+					про AST дерево что-нибудь впихнуть
+				</section> -->
+				<section>
+					<section>
+						маленькое "но"
+					</section>
+					<section>
+						<img src="lib/img/console-log.png" />
+					</section>
+				</section>
 			</div>
 		</div>
 
@@ -37,6 +274,8 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				width: "100%", 
+				slideNumber: true,
 				hash: true,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
